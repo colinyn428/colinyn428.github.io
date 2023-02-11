@@ -93,25 +93,25 @@
 <p>之前有个托管在 GitHub 上的博客，采用的是 Hexo 框架，它能把 Markdown 页面生成静态 HTML 页面，然后自动上传到 GitHub 上。后来我自己买了虚拟主机，用 WordPress 弄了一个新的博客。</p>
 <p>WordPress 对我来说还是太臃肿了，我开启了后台人工审核评论，每天都有不少的垃圾评论；插件功能对我来说也没什么用。我要的仅仅是个可以记录的简单小站而已，所以又把目光转回到了这个 Hexo 框架。</p>
 <p>我记得当时就是在这台 MacBook Pro 上编辑的这个博客，可是不知道为什么，当我再次使用 Hexo 的时候，发现 Hexo 没有安装。？？？黑人问号？？？</p>
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211203735406.png" alt="image-20230211203735406"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211203735406.png"></p>
 <p>可能是系统更新的缘故？当时我是在 Catalina 版本里操作的，难道到了 Monterey 里就不认了？那我就再安装一遍 Hexo 吧！</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
 
 <p>然后就报错了：</p>
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211204233680.png" alt="image-20230211204233680"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211204233680.png"></p>
 <p>这个大概意思是<strong>权限错误</strong>（Error EACCES），需要在命令前面加 <code>sudo</code> 来提权。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211204833901.png" alt="image-20230211204833901"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211204833901.png"></p>
 <p>成功安装！然后执行 <code>hexo -v</code> 命令，查看 Hexo 的版本，会输出如下内容：</p>
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211205134160.png" alt="image-20230211205134160"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211205134160.png"></p>
 <p>因为我之前在这台机器上用过 Hexo ，所以就没有进行初始化，直接运行 <code>hexo server</code> 命令，看看能否正常运行：</p>
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211205509554.png" alt="image-20230211205509554"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211205509554.png"></p>
 <p>也正常。打开 <code>localhost:4000</code> 查看页面也没问题。这么说问题解决了？</p>
 <p>当我运行 <code>hexo d</code> 命令来上传内容到 GitHub 时，报错了：</p>
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211210029195.png" alt="image-20230211210029195"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211210029195.png"></p>
 <p>无法访问 https 页面。我过段时间又试了一次，返回了另外一个错误：</p>
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211210355810.png" alt="image-20230211210355810"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211210355810.png"></p>
 <p><strong>鉴权失败</strong>。查了一下，大概意思是从 2021 年 8 月 13 日起，GitHub 不再支持密码认证方式了，所有通过 git 方式访问的用户都要通过 ssh 方式进行验证。否则就会报错。</p>
 <p>那么这样的话就需要有以下操作：</p>
 <ol>
@@ -119,19 +119,19 @@
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/.ssh</span><br><span class="line">ssh-keygen -t rsa -C GitHub_Username</span><br><span class="line"><span class="meta">#</span><span class="bash"> 请把 GitHub_Username 替换成 GitHub 的用户名（邮箱地址）</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 出现 Enter xxx 的提示时，连按 3 次回车键即可</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211212201386.png" alt="image-20230211212201386"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211212201386.png"></p>
 <p>然后在 <code>/Users/colin/.ssh/</code> 文件夹里就会生成 <code>id_rsa.pub</code>（公钥） 和 <code>id_rsa</code> （认证信息）两个文件。</p>
 <ol start="2">
 <li>打开 <code>id_rsa.pub</code> 文件，复制里面的内容，进入 <a target="_blank" rel="noopener" href="https://github.com/settings/keys">SSH and GPG keys (github.com)</a> ，添加 SSH Key，方法见下图：</li>
 </ol>
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211213259211.png" alt="image-20230211213259211"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211213259211.png"></p>
 <ol start="3">
 <li>到博客所在目录，找到并打开 <code>_config.yml</code> 这个文件，找到最下面的 <code>deploy</code> 小节，修改 <code>type</code> 和 <code>repo</code> 项。如下图：</li>
 </ol>
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211215447801.png" alt="image-20230211215447801"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211215447801.png"></p>
 <p><code>type</code> 填写 git</p>
 <p><code>repo</code> 填写的是自己 GitHub 项目页面的 SSH 代码地址。如下图红框处：</p>
-<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211214025432.png" alt="image-20230211214025432"></p>
+<p><img src="https://pic-1305825228.cos.ap-beijing.myqcloud.com/img/image-20230211214025432.png"></p>
 <p>修改好以后保存。</p>
 <p>然后在终端里进入自己的博客目录，然后执行 Hexo 的命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~/blog # 进入自己的博客目录，我的是 ~/blog</span><br><span class="line">hexo g # 生成静态文件到默认设置的 public 文件夹</span><br><span class="line">hexo d # 自动生成网站静态文件，并部署到指定的 GitHub 仓库中</span><br></pre></td></tr></table></figure>
